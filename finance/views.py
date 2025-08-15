@@ -12,7 +12,8 @@ from django.db.models import Q
 from .filters import IncomeFilter, ExpenceFilter 
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
+from rest_framework.permissions import IsAuthenticated
+from accounts.models import IsTokenValid
 class IncomeAPIView(ListCreateAPIView):
     queryset = Income.objects.all()
     serializer_class = IncomeSerializer
@@ -80,7 +81,8 @@ class ExpenceRUDAPIView(RetrieveUpdateDestroyAPIView):
         user = self.request.user 
         serializer.save(user=user)
 
-class WalletAPIView(ListCreateAPIView):
+class WalletAPIView(IsAuthenticated,IsTokenValid,ListCreateAPIView):
+    permission_classes = [IsTokenValid]
     queryset = Wallet.objects.all()
     serializer_class = WalletSerializer
     def perform_create(self, serializer):

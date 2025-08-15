@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     # local
     'finance.apps.FinanceConfig',
+    'accounts.apps.AccountsConfig',
 
 ]
 
